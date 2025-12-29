@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Agregar columna en la grilla de proveedores dentro del producto -->
+    <record id="view_product_supplierinfo_tree_inherit_pricelist_category" model="ir.ui.view">
+        <field name="name">product.supplierinfo.tree.inherit.pricelist.category</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="supplier_pricelist_categ_id" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Agregar campo al form de supplierinfo (cuando se abre la línea de proveedor) -->
+    <record id="view_product_supplierinfo_form_inherit_pricelist_category" model="ir.ui.view">
+        <field name="name">product.supplierinfo.form.inherit.pricelist.category</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='price']" position="after">
+                <field name="supplier_pricelist_categ_id"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

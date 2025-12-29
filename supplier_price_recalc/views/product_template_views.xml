@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Botón en vista formulario de producto -->
+    <record id="view_product_template_form_recalc_button" model="ir.ui.view">
+        <field name="name">product.template.form.recalc.button</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet//div[contains(@class,'oe_button_box')]" position="inside">
+                <button name="action_recalc_all_prices"
+                        string="Recalcular precios"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-refresh"
+                        help="Recalcula categoría, costo y precio de venta desde el proveedor preferido"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Acción de servidor para selección múltiple (aparece en Acción del listado y también en form) -->
+    <record id="action_recalc_prices_server" model="ir.actions.server">
+        <field name="name">Recalcular categoría + costo + precio</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_recalc_all_prices()</field>
+    </record>
+
+</odoo>
