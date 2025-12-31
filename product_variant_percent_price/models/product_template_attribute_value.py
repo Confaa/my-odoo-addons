@@ -47,35 +47,36 @@ class ProductTemplateAttributeValue(models.Model):
             extra = ptav.price_extra or 0.0
 
             if not base:
-                # Avoid division by zero; keep percent at 0
                 new_percent = 0.0
             else:
                 new_percent = (extra / base) * 100.0
 
             if abs((ptav.price_extra_percent or 0.0) - new_percent) > 0.000001:
-                ptav.with_context(skip_percent_price_extra=True).write({"price_extra_percent": new_percent})
-
-    @api.model_create_multi
-def create(self, vals_list):
-    records = super().create(vals_list)
-
-    # Bidirectional sync at create time depending on what the user provided.
-    # If both are provided, percent wins.
-    for ptav, vals in zip(records, vals_list):
-        # If percent not provided but attribute value has a default percent, copy it.
-        if not vals.get("price_extra_percent") and vals.get("product_attribute_value_id"):
-            av = self.env["product.attribute.value"].browse(vals.get("product_attribute_value_id"))
-            if av and av.default_extra_price_percent:
                 ptav.with_context(skip_percent_price_extra=True).write(
-                    {"price_extra_percent": av.default_extra_price_percent}
+                    {"price_extra_percent": new_percent}
                 )
 
-        if ptav.price_extra_percent:
-            ptav._percent_to_extra()
-        elif "price_extra" in vals and vals.get("price_extra") not in (None, False):
-            ptav._extra_to_percent()
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
 
-    return records
+        # Bidirectional sync at create time depending on what the user provided.
+        # If both are provided, percent wins.
+        for ptav, vals in zip(records, vals_list):
+            # If percent not provided but attribute value has a default percent, copy it.
+            if not vals.get("price_extra_percent") and vals.get("product_attribute_value_id"):
+                av = self.env["product.attribute.value"].browse(vals.get("product_attribute_value_id"))
+                if av and av.default_extra_price_percent:
+                    ptav.with_context(skip_percent_price_extra=True).write(
+                        {"price_extra_percent": av.default_extra_price_percent}
+                    )
+
+            if ptav.price_extra_percent:
+                ptav._percent_to_extra()
+            elif "price_extra" in vals and vals.get("price_extra") not in (None, False):
+                ptav._extra_to_percent()
+
+        return records
 
     def write(self, vals):
         res = super().write(vals)
