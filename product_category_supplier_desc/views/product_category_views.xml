@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Formulario de categoría -->
+    <record id="view_product_category_form_inherit_supplier_desc" model="ir.ui.view">
+        <field name="name">product.category.form.inherit.supplier.desc</field>
+        <field name="model">product.category</field>
+        <!-- En Odoo 19 este external id existe en la mayoría de instalaciones -->
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Información adicional">
+                    <field name="x_default_supplier_id"/>
+                    <field name="x_category_description" placeholder="Descripción interna de la categoría..."/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
