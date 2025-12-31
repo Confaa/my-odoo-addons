@@ -22,4 +22,60 @@
             </xpath>
         </field>
     </record>
+
+    <!-- Standalone screen to set default percent on Attribute Values (avoids inheriting unstable Attribute form) -->
+    <record id="view_product_attribute_value_tree_percent" model="ir.ui.view">
+        <field name="name">product.attribute.value.tree.percent</field>
+        <field name="model">product.attribute.value</field>
+        <field name="arch" type="xml">
+            <tree string="Attribute Values">
+                <field name="attribute_id"/>
+                <field name="name"/>
+                <field name="default_extra_price"/>
+                <field name="default_extra_price_percent" string="Extra (%)"/>
+                <field name="sequence" optional="hide"/>
+                <field name="active" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_product_attribute_value_form_percent" model="ir.ui.view">
+        <field name="name">product.attribute.value.form.percent</field>
+        <field name="model">product.attribute.value</field>
+        <field name="arch" type="xml">
+            <form string="Attribute Value">
+                <sheet>
+                    <group>
+                        <field name="attribute_id"/>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="default_extra_price"/>
+                        <field name="default_extra_price_percent" string="Extra (%)"/>
+                    </group>
+                    <group>
+                        <field name="sequence"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_attribute_value_percent" model="ir.actions.act_window">
+        <field name="name">Attribute Values (%)</field>
+        <field name="res_model">product.attribute.value</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_product_attribute_value_tree_percent"/>
+        <field name="help" type="html">
+            <p>Set a default Extra (%) per Attribute Value. It will propagate to product variants using it.</p>
+        </field>
+    </record>
+
+    <!-- Menu entry under Product Catalog (may vary by build; if your product.menu_catalog is different, change parent) -->
+    <menuitem id="menu_product_attribute_value_percent"
+              name="Attribute Values (%)"
+              parent="product.menu_catalog"
+              action="action_product_attribute_value_percent"
+              sequence="220"/>
 </odoo>
