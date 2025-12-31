@@ -24,12 +24,17 @@
     </record>
 
     <!-- Add "Extra (%)" on Product Attributes / Attribute Values screen -->
+    
+
+
+    <!-- Extra (%) on Product Attributes / Attribute Values (robust xpath) -->
     <record id="view_product_attribute_form_inherit_percent" model="ir.ui.view">
         <field name="name">product.attribute.form.inherit.percent</field>
         <field name="model">product.attribute</field>
         <field name="inherit_id" ref="product.product_attribute_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='value_ids']//tree//field[@name='default_extra_price']" position="after">
+            <!-- Insert column in attribute values tree regardless of exact field order -->
+            <xpath expr="//field[@name='value_ids']/tree" position="inside">
                 <field name="default_extra_price_percent" string="Extra (%)"/>
             </xpath>
         </field>
