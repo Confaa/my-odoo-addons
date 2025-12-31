@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Add "Extra (%)" field next to price_extra on template attribute values -->
+    <!-- Product Template Attribute Value: Extra (%) -->
     <record id="view_product_template_attribute_value_tree_inherit_percent" model="ir.ui.view">
         <field name="name">product.template.attribute.value.tree.inherit.percent</field>
         <field name="model">product.template.attribute.value</field>
@@ -22,30 +22,4 @@
             </xpath>
         </field>
     </record>
-
-    <!-- Add "Extra (%)" on Product Attributes / Attribute Values screen -->
-
-    <!-- Add "Extra (%)" on Attribute Values views (used inside Attributes screen) -->
-    <record id="view_product_attribute_value_tree_inherit_percent" model="ir.ui.view">
-        <field name="name">product.attribute.value.tree.inherit.percent</field>
-        <field name="model">product.attribute.value</field>
-        <field name="inherit_id" ref="product.product_attribute_value_view_tree"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='name']" position="after">
-                <field name="default_extra_price_percent" string="Extra (%)"/>
-            </xpath>
-        </field>
-    </record>
-
-    <record id="view_product_attribute_value_form_inherit_percent" model="ir.ui.view">
-        <field name="name">product.attribute.value.form.inherit.percent</field>
-        <field name="model">product.attribute.value</field>
-        <field name="inherit_id" ref="product.product_attribute_value_view_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='name']" position="after">
-                <field name="default_extra_price_percent" string="Extra (%)"/>
-            </xpath>
-        </field>
-    </record>
-
 </odoo>

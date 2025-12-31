@@ -63,14 +63,7 @@ class ProductTemplateAttributeValue(models.Model):
         # Bidirectional sync at create time depending on what the user provided.
         # If both are provided, percent wins.
         for ptav, vals in zip(records, vals_list):
-            # If percent not provided but attribute value has a default percent, copy it.
-            if not vals.get("price_extra_percent") and vals.get("product_attribute_value_id"):
-                av = self.env["product.attribute.value"].browse(vals.get("product_attribute_value_id"))
-                if av and av.default_extra_price_percent:
-                    ptav.with_context(skip_percent_price_extra=True).write(
-                        {"price_extra_percent": av.default_extra_price_percent}
-                    )
-
+            
             if ptav.price_extra_percent:
                 ptav._percent_to_extra()
             elif "price_extra" in vals and vals.get("price_extra") not in (None, False):
